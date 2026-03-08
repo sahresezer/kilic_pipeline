@@ -1,0 +1,10 @@
+name: bio_pipeline
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.9
+  - biopython
+  - pandas
+  - nanoplot
+  - snakemake
