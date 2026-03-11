@@ -1,9 +1,11 @@
 rule all:
     input:
         "results/barcode77_summary.csv",
-        "results/plot_length_dist.png"
+        "results/plot_length_dist.png",
+        "results/plot_gc_dist.png",
+        "results/plot_quality_dist.png"
 
-rule calculate_qc:
+rule analyze_fastq:
     input:
         "data/barcode77.fastq"
     output:
@@ -11,7 +13,7 @@ rule calculate_qc:
     shell:
         "python scripts/calculate_stats.py"
 
-rule plot_qc:
+rule generate_plots:
     input:
         "results/barcode77_summary.csv"
     output:
