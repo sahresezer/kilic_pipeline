@@ -19,7 +19,7 @@ This project is an automated and reproducible bioinformatics pipeline developed 
 - ✅ Reproducible conda environment
 
 ## Project Structure
-
+```text
 kilic_pipeline/
 ├── data/                          # Raw data files
 │   └── barcode77.fastq           # FASTQ file to be analyzed
@@ -36,7 +36,7 @@ kilic_pipeline/
 ├── environment.yml               # Conda environment definition
 ├── .gitignore                    # Git ignore rules
 └── README.md                     # This file
-
+```
 
 ##  Technologies Used
 
