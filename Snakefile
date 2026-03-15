@@ -11,7 +11,7 @@ rule analyze_fastq:
     output:
         "results/barcode77_summary.csv"
     shell:
-        "python scripts/calculate_stats.py"
+        "python scripts/calculate_stats.py {input} {output}"
 
 rule generate_plots:
     input:

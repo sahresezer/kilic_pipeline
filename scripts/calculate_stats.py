@@ -1,47 +1,75 @@
+import sys
+import os
 import pandas as pd
 from Bio import SeqIO
 
-def analyze_fastq(input_file, output_file):
-    results = []
-    print(f"Good news: File '{input_file}' found successfully. Starting analysis...\n")
-    
-    # Initialize a counter for the number of processed reads
-    read_count = 0
+class FastqAnalyzer:
+    def __init__(self, input_path):
+        self.input_path = input_path
+        self.results = []
 
-    # Parse the FASTQ file line by line using SeqIO
-    for record in SeqIO.parse(input_file, "fastq"):
-        
-        # 1. Read Length
-        length = len(record.seq)
-        
-        # 2. GC Content (%)
-        g_count = record.seq.count("G")
-        c_count = record.seq.count("C")
-        gc_content = (g_count + c_count) / length * 100
-        
-        # 3. Mean Quality Score
-        qualities = record.letter_annotations["phred_quality"]
-        mean_quality = sum(qualities) / len(qualities)
-        
-        results.append({
-            "read_id": record.id,
-            "length": length,
-            "gc_content": round(gc_content, 2),
-            "mean_quality": round(mean_quality, 2)
-        })
-        
-        read_count += 1
+    @staticmethod
+    def get_gc_content(sequence):
+        """Calculates the GC content percentage."""
+        if not sequence:
+            return 0.0
+        g_count = sequence.count("G")
+        c_count = sequence.count("C")
+        return (g_count + c_count) / len(sequence) * 100.0
 
-    # Convert the data into a tabular format (CSV) and save it
-    df = pd.DataFrame(results)
-    df.to_csv(output_file, index=False)
-    
-    print(f"Analysis complete! Processed a total of {read_count} DNA reads.")
-    print(f"The report prepared for Professor Kılıç has been saved to: {output_file}")
+    @staticmethod
+    def get_mean_quality(quality_scores):
+        """Calculates the mean quality score."""
+        if not quality_scores:
+            return 0.0
+        return sum(quality_scores) / len(quality_scores)
+
+    def analyze(self):
+        """Parses the FASTQ file and calculates metrics."""
+        if not os.path.exists(self.input_path):
+            raise FileNotFoundError(f"Error: {self.input_path} not found.")
+        
+        if os.path.getsize(self.input_path) == 0:
+            raise ValueError("Error: Input FASTQ file is completely empty!")
+
+        parsed_reads = list(SeqIO.parse(self.input_path, "fastq"))
+        
+        if not parsed_reads:
+            raise ValueError("Error: No valid FASTQ data found in the file.")
+
+        for record in parsed_reads:
+            seq_len = len(record.seq)
+            gc_val = self.get_gc_content(record.seq)
+            q_scores = record.letter_annotations["phred_quality"]
+            avg_q = self.get_mean_quality(q_scores)
+
+            self.results.append({
+                "read_id": record.id,
+                "length": seq_len,
+                "gc_content": gc_val,
+                "mean_quality": avg_q
+            })
+        
+        return pd.DataFrame(self.results)
+
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: python scripts/calculate_stats.py <input.fastq> <output.csv>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
+    try:
+        analyzer = FastqAnalyzer(input_file)
+        df = analyzer.analyze()
+        
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        df.to_csv(output_file, index=False)
+        print(f"Analysis successful. Output saved to: {output_file}")
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
 if __name__ == "__main__":
-    # ATTENTION: Reading the new real data instead of the old test file
-    input_fastq = "data/barcode77.fastq"
-    output_csv = "results/barcode77_summary.csv"
-    
-    analyze_fastq(input_fastq, output_csv)
+    main()
