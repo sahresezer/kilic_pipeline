@@ -1,0 +1,51 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+analyze_fastq         1
+generate_plots        1
+total                 3
+
+Select jobs to execute...
+
+[Sun Mar 15 21:19:36 2026]
+rule analyze_fastq:
+    input: data/barcode77.fastq
+    output: results/barcode77_summary.csv
+    jobid: 1
+    reason: Missing output files: results/barcode77_summary.csv
+    resources: tmpdir=/var/folders/jr/qlgnxp0d3_nb50fz_d9fqbkm0000gn/T
+
+[Sun Mar 15 21:19:40 2026]
+Finished job 1.
+1 of 3 steps (33%) done
+Select jobs to execute...
+
+[Sun Mar 15 21:19:40 2026]
+rule generate_plots:
+    input: results/barcode77_summary.csv
+    output: results/plot_length_dist.png, results/plot_gc_dist.png, results/plot_quality_dist.png
+    jobid: 2
+    reason: Input files updated by another job: results/barcode77_summary.csv
+    resources: tmpdir=/var/folders/jr/qlgnxp0d3_nb50fz_d9fqbkm0000gn/T
+
+[Sun Mar 15 21:19:43 2026]
+Finished job 2.
+2 of 3 steps (67%) done
+Select jobs to execute...
+
+[Sun Mar 15 21:19:43 2026]
+localrule all:
+    input: results/barcode77_summary.csv, results/plot_length_dist.png, results/plot_gc_dist.png, results/plot_quality_dist.png
+    jobid: 0
+    reason: Input files updated by another job: results/barcode77_summary.csv, results/plot_quality_dist.png, results/plot_length_dist.png, results/plot_gc_dist.png
+    resources: tmpdir=/var/folders/jr/qlgnxp0d3_nb50fz_d9fqbkm0000gn/T
+
+[Sun Mar 15 21:19:43 2026]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: .snakemake/log/2026-03-15T211936.290145.snakemake.log

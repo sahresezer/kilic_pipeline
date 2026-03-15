@@ -1,0 +1,37 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+generate_plots        1
+total                 2
+
+Select jobs to execute...
+
+[Sun Mar 15 19:15:13 2026]
+rule generate_plots:
+    input: results/barcode77_summary.csv
+    output: results/plot_length_dist.png, results/plot_gc_dist.png, results/plot_quality_dist.png
+    jobid: 2
+    reason: Updated input files: results/barcode77_summary.csv
+    resources: tmpdir=/var/folders/jr/qlgnxp0d3_nb50fz_d9fqbkm0000gn/T
+
+[Sun Mar 15 19:15:18 2026]
+Finished job 2.
+1 of 2 steps (50%) done
+Select jobs to execute...
+
+[Sun Mar 15 19:15:18 2026]
+localrule all:
+    input: results/barcode77_summary.csv, results/plot_length_dist.png, results/plot_gc_dist.png, results/plot_quality_dist.png
+    jobid: 0
+    reason: Input files updated by another job: results/plot_length_dist.png, results/plot_quality_dist.png, results/plot_gc_dist.png
+    resources: tmpdir=/var/folders/jr/qlgnxp0d3_nb50fz_d9fqbkm0000gn/T
+
+[Sun Mar 15 19:15:18 2026]
+Finished job 0.
+2 of 2 steps (100%) done
+Complete log: .snakemake/log/2026-03-15T191512.566676.snakemake.log
