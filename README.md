@@ -38,6 +38,7 @@ kilic_pipeline/
 ├── environment.yml               # Conda environment definition
 ├── .gitignore                    # Git ignore rules
 └── README.md                     # This file
+```
 Technologies Used
 Core Technologies
 
@@ -217,10 +218,39 @@ Push to the branch (git push origin feature/amazing-feature)
 
 Open a Pull Request
 
+
 Contact
 Developer: Sahre Hilal Sezer
 Supervisor: Prof. Dr. Kılıç
 Email: sahrehilalsezer@gmail.com
+
+## 📧 Appendix: Result Report Email to Prof. Dr. Kılıç
+
+**Subject:** Barcode77 Dataset Quality Control (QC) Pipeline Results
+
+**Dear Prof. Dr. Kılıç,**
+
+I have successfully developed and executed the automated bioinformatics pipeline for the quality control analysis of our long-read sequencing data (`barcode77.fastq`). 
+
+To ensure reproducibility and reliability, the pipeline was built using Python and Snakemake, incorporating an Object-Oriented Programming (OOP) architecture and automated unit tests (Pytest).
+
+**Summary of the Sequencing Metrics:**
+- **Total Reads:** 81,012
+- **Average Read Length:** 487.23 bp
+- **Mean GC Content:** 53.00%
+- **Mean Quality Score (Phred):** 17.90
+
+**Interpretation of Results:**
+The overall quality of the run is highly satisfactory. A mean Phred score of 17.90 indicates a strong base-calling accuracy, which is excellent for long-read sequencing technologies. The GC content (53%) remains well-balanced and aligned with expected genomic signatures. Furthermore, the length distribution confirms that the long-read advantage of the sequencing run was successfully preserved.
+
+The detailed read-by-read statistics (CSV) and the high-resolution distribution plots for length, GC content, and quality scores have been generated and are available in the `results/` directory of the project repository. 
+
+Please let me know if you would like me to process additional datasets or implement further filtering parameters.
+
+Best regards,
+
+**Sahre Hilal Sezer** *Bioinformatics Developer*
+
 
 📄 License
 This project is licensed under the MIT License. See LICENSE for details.
