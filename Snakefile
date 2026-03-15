@@ -1,9 +1,9 @@
 rule all:
     input:
         "results/barcode77_summary.csv",
-        "results/plot_length_dist.png",
-        "results/plot_gc_dist.png",
-        "results/plot_quality_dist.png"
+        "results/barcode77_length_dist.png",
+        "results/barcode77_gc_dist.png",
+        "results/barcode77_quality_dist.png"
 
 rule analyze_fastq:
     input:
@@ -17,8 +17,8 @@ rule generate_plots:
     input:
         "results/barcode77_summary.csv"
     output:
-        "results/plot_length_dist.png",
-        "results/plot_gc_dist.png",
-        "results/plot_quality_dist.png"
+       "results/barcode77_length_dist.png",
+        "results/barcode77_gc_dist.png",
+        "results/barcode77_quality_dist.png"
     shell:
-        "python scripts/plot_results.py"
+        "python scripts/plot_results.py {input}"

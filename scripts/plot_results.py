@@ -1,59 +1,75 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sys
+import os
 
-def visualize_results(csv_file, output_prefix):
-    print("Reading data and calculating statistics...\n")
-    df = pd.read_csv(csv_file)
+def config_plot(title, xlabel, ylabel):
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
 
-    print("--- SUMMARY STATISTICS ---")
+def draw_histplot(df, column, color, title, xlabel, ylabel, output_path, bins=50):
+    plt.figure(figsize=(12, 7))
+    
+    if column == "length":
+        upper_limit = df[column].quantile(0.99)
+        data_to_plot = df[df[column] <= upper_limit][column]
+        plt.xlim(0, upper_limit)
+    else:
+        data_to_plot = df[column]
+
+    sns.histplot(data_to_plot, bins=bins, kde=True, color=color, edgecolor='black', alpha=0.7)
+    config_plot(title, xlabel, ylabel)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300) 
+    plt.close()
+
+def draw_violinplot(df, column, color, title, xlabel, ylabel, output_path):
+    plt.figure(figsize=(12, 5))
+    sns.violinplot(x=df[column], color=color, inner="quartile") 
+    config_plot(title, xlabel, ylabel)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+
+def visualize_results(input_csv, output_prefix):
+
+    try:
+        df = pd.read_csv(input_csv)
+    except FileNotFoundError:
+        print(f"Error: Could not find {input_csv}")
+        sys.exit(1)
+
+ 
+    print("\n--- SUMMARY STATISTICS ---")
     for col in ["length", "gc_content", "mean_quality"]:
-        mean_val = df[col].mean()       
-        median_val = df[col].median()   
-        print(f"{col.upper()} (Column):")
-        print(f"  - Mean   : {mean_val:.2f}")
-        print(f"  - Median : {median_val:.2f}\n")
+        if col in df.columns:
+            print(f"{col.upper()} (Column):")
+            print(f"  - Mean   : {df[col].mean():.2f}")
+            print(f"  - Median : {df[col].median():.2f}\n")
     print("--------------------------\n")
 
     print("Generating plots, please wait...")
-    sns.set_theme(style="whitegrid")
     
-    # ---------------------------------------------------------
-    # Plot A: Read Length Distribution 
-    # ---------------------------------------------------------
-    plt.figure(figsize=(10, 6))
+    draw_histplot(df, "length", "blue", "Read Length Distribution", "Read Length (bp)", "Frequency (Number of Reads)", f"{output_prefix}_length_dist.png")
     
-    # Trim the top 1% extreme outliers to focus on the main distribution
-    upper_limit = df["length"].quantile(0.99) 
-    clean_data = df[df["length"] <= upper_limit]
+    draw_histplot(df, "gc_content", "green", "GC Content Distribution", "GC Content (%)", "Frequency (Number of Reads)", f"{output_prefix}_gc_dist.png")
     
-    sns.histplot(clean_data["length"], bins=50, kde=True, color="blue")
-    plt.title("Read Length Distribution")
-    plt.xlabel("Read Length (Base Pairs)")
-    plt.ylabel("Frequency (Number of Reads)")
-    plt.savefig(f"{output_prefix}_length_dist.png") 
-    plt.close() 
+    draw_violinplot(df, "mean_quality", "orange", "Mean Quality Score Distribution", "Mean Phred Quality Score", "Density", f"{output_prefix}_quality_dist.png")
 
-    # Plot B: GC Content (%)
-    plt.figure(figsize=(10, 6))
-    sns.histplot(df["gc_content"], bins=30, kde=True, color="green")
-    plt.title("GC Content Distribution")
-    plt.xlabel("GC Content (%)")
-    plt.ylabel("Frequency (Number of Reads)")
-    plt.savefig(f"{output_prefix}_gc_dist.png")
-    plt.close()
+    print(f"Process finished! Plots have been saved with the prefix '{output_prefix}'.")
 
-    # Plot C: Mean Read Quality Score
-    plt.figure(figsize=(8, 6))
-    sns.violinplot(y=df["mean_quality"], color="orange")
-    plt.title("Mean Read Quality Score Distribution")
-    plt.ylabel("Phred Quality Score (Q)")
-    plt.savefig(f"{output_prefix}_quality_dist.png")
-    plt.close()
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python scripts/plot_results.py <input.csv>")
+        sys.exit(1)
 
-    print(f"Process finished! Plots have been saved to the results directory with the prefix '{output_prefix}'.")
+    input_file = sys.argv[1]
+    output_prefix = input_file.replace("_summary.csv", "")
+
+    visualize_results(input_file, output_prefix)
 
 if __name__ == "__main__":
-    input_csv = "results/barcode77_summary.csv"
-    output_images = "results/plot"
-    visualize_results(input_csv, output_images)
+    main()
