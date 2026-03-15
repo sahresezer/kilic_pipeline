@@ -1,0 +1,7 @@
+Building DAG of jobs...
+MissingInputException in rule all in file /Users/sahra/Desktop/kilic_pipeline/Snakefile, line 1:
+Missing input files for rule all:
+    affected files:
+        results/plot_gc_dist.png
+        results/plot_quality_dist.png
+        results/plot_length_dist.png
