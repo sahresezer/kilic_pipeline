@@ -88,6 +88,7 @@ Q20+: High-quality reads
 Installation and Running
 
 1. Prerequisites
+```text
 # Make sure conda is installed
 conda --version
 
@@ -224,7 +225,6 @@ Developer: Sahre Hilal Sezer
 Supervisor: Prof. Dr. Kılıç
 Email: sahrehilalsezer@gmail.com
 
-## 📧 Appendix: Result Report Email to Prof. Dr. Kılıç
 
 **Subject:** Barcode77 Dataset Quality Control (QC) Pipeline Results
 
@@ -252,8 +252,9 @@ Best regards,
 **Sahre Hilal Sezer** *Bioinformatics Developer*
 
 
-📄 License
+License
 This project is licensed under the MIT License. See LICENSE for details.
 
 Last Updated: March 2026
 Version: 1.1.0
+```
