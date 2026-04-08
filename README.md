@@ -13,14 +13,14 @@
 This project is an automated and reproducible bioinformatics pipeline developed for quality control (QC) of long-read sequencing data. It analyzes raw data in FASTQ format to calculate and visualize basic metrics such as read length, GC content, and quality scores.
 
 **Key Features:**
-- ✅ Fully automated workflow management (Snakemake)
-- ✅ Object-Oriented Programming (OOP) approach for FASTQ parsing
-- ✅ Comprehensive Unit Testing and error handling (Pytest)
-- ✅ Statistical summary and visualization
-- ✅ Outlier filtering
-- ✅ Reproducible conda environment
+- Fully automated workflow management (Snakemake)
+- Object-Oriented Programming (OOP) approach for FASTQ parsing
+- Comprehensive Unit Testing and error handling (Pytest)
+- Statistical summary and visualization
+- Outlier filtering
+- Reproducible conda environment
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 kilic_pipeline/
@@ -41,7 +41,7 @@ kilic_pipeline/
 └── README.md                     # This file
 ```
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ### Core Technologies
 - **Python 3.8+**: Main programming language
@@ -56,7 +56,7 @@ kilic_pipeline/
 - **Matplotlib**: Graph creation
 - **Seaborn**: Statistical visualization
 
-## 📊 Analysis Metrics
+## Analysis Metrics
 
 The pipeline calculates the following metrics:
 
@@ -73,7 +73,7 @@ The pipeline calculates the following metrics:
 - Q15+: Acceptable for long-read technologies
 - Q20+: High-quality reads
 
-## 🚀 Installation and Running
+## Installation and Running
 
 ### 1. Prerequisites
 ```bash
@@ -174,7 +174,7 @@ MEAN_QUALITY (Column):
 2. **GC Content Distribution**: GC content distribution
 3. **Quality Score Distribution**: Violin plot of quality scores
 
-## 📝 Workflow Description
+##  Workflow Description
 
 ### Snakemake Rules
 
@@ -188,7 +188,7 @@ MEAN_QUALITY (Column):
 
 3. **all**: Produces all target files
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Errors
 
@@ -213,7 +213,7 @@ snakemake --cleanup-metadata results/
 # Run again
 snakemake --forceall
 ```
-## 📊 Quality Assessment
+## Quality Assessment
 
 ### Sample Results (Barcode77)
 - **Total Read Count**: 81,012
@@ -222,11 +222,11 @@ snakemake --forceall
 - **Quality Score**: 17.90 (average Phred)
 
 ### Quality Interpretation
-✅ **High Quality**: Q17.90, excellent for long-read technologies
-✅ **GC Balance**: 53%, aligned with genomic signatures
-✅ **Length Distribution**: Wide range, long-read advantage preserved
+**High Quality**: Q17.90, excellent for long-read technologies
+**GC Balance**: 53%, aligned with genomic signatures
+**Length Distribution**: Wide range, long-read advantage preserved
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -235,7 +235,7 @@ snakemake --forceall
 5. Open a Pull Request
 
 
-## 📧 Contact
+## Contact
 
 **Developer**: Sahre Hilal Sezer
 **Supervisor**: Prof. Dr. Kılıç
@@ -268,7 +268,7 @@ Best regards,
 **Sahre Hilal Sezer** *Bioinformatics Developer*
 
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
