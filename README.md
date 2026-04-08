@@ -20,8 +20,9 @@ This project is an automated and reproducible bioinformatics pipeline developed 
 - ✅ Outlier filtering
 - ✅ Reproducible conda environment
 
-## Project Structure
-```text
+## 🏗️ Project Structure
+
+```
 kilic_pipeline/
 ├── data/                          # Raw data files
 │   └── barcode77.fastq           # FASTQ file to be analyzed
@@ -39,89 +40,112 @@ kilic_pipeline/
 ├── .gitignore                    # Git ignore rules
 └── README.md                     # This file
 ```
-Technologies Used
-Core Technologies
 
-Python 3.8+: Main programming language
+## 🛠️ Technologies Used
 
-Snakemake: Workflow management and automation
+### Core Technologies
+- **Python 3.8+**: Main programming language
+- **Snakemake**: Workflow management and automation
+- **Conda**: Package management and environment isolation
 
-Conda: Package management and environment isolation
+### Scientific & Testing Libraries
+- **BioPython**: FASTQ file processing and biological data analysis
+- **Pandas**: Data manipulation and CSV operations
+- **Pytest**: Automated unit testing and validation
+- **NumPy**: Numerical computations
+- **Matplotlib**: Graph creation
+- **Seaborn**: Statistical visualization
 
-Scientific & Testing Libraries
+## 📊 Analysis Metrics
 
-BioPython: FASTQ file processing and biological data analysis
-
-Pandas: Data manipulation and CSV operations
-
-Pytest: Automated unit testing and validation
-
-NumPy: Numerical computations
-
-Matplotlib: Graph creation
-
-Seaborn: Statistical visualization
-
-Analysis Metrics
 The pipeline calculates the following metrics:
 
-1. Read Length
+### 1. Read Length
+- Length of each read in base pairs
+- Distribution plot with outlier filtering
 
-Length of each read in base pairs
+### 2. GC Content
+- Percentage of Guanine and Cytosine nucleotides
+- Critical metric for genomic signature analysis
 
-Distribution plot with outlier filtering
+### 3. Quality Score
+- Phred quality score (Q = -10log₁₀(P))
+- Q15+: Acceptable for long-read technologies
+- Q20+: High-quality reads
 
-2. GC Content
+## 🚀 Installation and Running
 
-Percentage of Guanine and Cytosine nucleotides
-
-Critical metric for genomic signature analysis
-
-3. Quality Score
-
-Phred quality score (Q = -10log₁₀(P))
-
-Q15+: Acceptable for long-read technologies
-
-Q20+: High-quality reads
-
-Installation and Running
-
-1. Prerequisites
-```text
+### 1. Prerequisites
+```bash
 # Make sure conda is installed
 conda --version
 
 # If conda is not installed:
 # macOS: brew install miniconda
-# Linux: wget [https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh](https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh)
+# Linux: wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+```
 
-2. Clone the Project
-git clone [https://github.com/sahresezer/kilic_pipeline.git](https://github.com/sahresezer/kilic_pipeline.git)
+### 2. Clone the Project
+```bash
+git clone https://github.com/sahresezer/kilic_pipeline.git
 cd kilic_pipeline
+```
 
-3. Create Conda Environment
+### 3. Create Conda Environment
+```bash
 # Create the environment
 conda env create -f environment.yml
 
 # Activate the environment
 conda activate bio_pipeline
+```
 
-4. Run the Pipeline
+### 4. Run the Pipeline
+```bash
 # Run the entire pipeline
 snakemake --cores 1
 
 # Or run specific rules
 snakemake analyze_fastq
 snakemake generate_plots
+```
 
-5. Running Unit Tests (Test-Driven Development)
+### 5. Running Unit Tests (Test-Driven Development)
 
-This project includes automated unit tests written with pytest to validate core functionalities and handle edge cases (e.g., empty files, missing files, corrupted FASTQ formats).
+This project includes comprehensive unit tests written with pytest to validate core functionalities and handle edge cases. The test suite covers:
 
-To run the tests and verify the code's integrity, execute the following command in the root directory:
+#### Test Coverage:
+- **GC Content Calculation**: Validates accurate GC percentage computation
+- **Quality Score Calculation**: Ensures correct mean quality score calculation
+- **File Handling**: Tests error handling for missing files
+- **Data Validation**: Checks for empty and corrupted FASTQ files
+- **Format Validation**: Verifies proper FASTQ format parsing
 
-pytest test_analyzer.py
+#### Test Results (Latest Run):
+```
+============================= test session starts ==============================
+collected 5 items
+
+test_analyzer.py::test_get_gc_content PASSED          [ 20%]
+test_analyzer.py::test_get_mean_quality PASSED        [ 40%]
+test_analyzer.py::test_missing_file PASSED            [ 60%]
+test_analyzer.py::test_empty_fastq_file PASSED        [ 80%]
+test_analyzer.py::test_invalid_fastq_content PASSED   [100%]
+
+============================== 5 passed in 5.16s ===============================
+```
+
+#### Running Tests:
+```bash
+# Run all tests with verbose output
+pytest test_analyzer.py -v
+
+# Run specific test
+pytest test_analyzer.py::test_get_gc_content
+
+# Run with coverage report
+pytest test_analyzer.py --cov=scripts.calculate_stats
+```
 
 Output Files
 barcode77_summary.csv
@@ -145,85 +169,77 @@ GC_CONTENT (Column):
 MEAN_QUALITY (Column):
   - Mean   : 17.90
   - Median : 17.31
-  Visualizations
+### Visualizations
+1. **Read Length Distribution**: Histogram of read lengths
+2. **GC Content Distribution**: GC content distribution
+3. **Quality Score Distribution**: Violin plot of quality scores
 
-Read Length Distribution: Histogram of read lengths
+## 📝 Workflow Description
 
-GC Content Distribution: GC content distribution
+### Snakemake Rules
 
-Quality Score Distribution: Violin plot of quality scores
+1. **analyze_fastq**: Analyzes FASTQ file
+   - Input: `data/barcode77.fastq`
+   - Output: `results/barcode77_summary.csv`
 
-Workflow Description
-Snakemake Rules
+2. **generate_plots**: Visualizes statistics
+   - Input: `results/barcode77_summary.csv`
+   - Output: PNG plot files
 
-analyze_fastq: Analyzes FASTQ file
+3. **all**: Produces all target files
 
-Input: data/barcode77.fastq
+## 🐛 Troubleshooting
 
-Output: results/barcode77_summary.csv
+### Common Errors
 
-generate_plots: Visualizes statistics
-
-Input: results/barcode77_summary.csv
-
-Output: PNG plot files
-
-all: Produces all target files
-
-Troubleshooting
-Common Errors
-
-"ModuleNotFoundError"
+**"ModuleNotFoundError"**
+```bash
 # Make sure conda environment is active
 conda activate bio_pipeline
 
 # Reinstall packages
 conda env update -f environment.yml
-"FileNotFoundError"
+```
 
-Ensure data files are in correct locations
+**"FileNotFoundError"**
+- Ensure data files are in correct locations
+- Check relative paths
 
-Check relative paths
-
-Snakemake Error
+**Snakemake Error**
+```bash
 # Clear cache
 snakemake --cleanup-metadata results/
 
 # Run again
 snakemake --forceall
-Quality Assessment
-Sample Results (Barcode77)
+```
+## 📊 Quality Assessment
 
-Total Read Count: 81,012
+### Sample Results (Barcode77)
+- **Total Read Count**: 81,012
+- **Average Length**: 487.23 bp
+- **GC Content**: 53.00% (average)
+- **Quality Score**: 17.90 (average Phred)
 
-Average Length: 487.23 bp
+### Quality Interpretation
+✅ **High Quality**: Q17.90, excellent for long-read technologies
+✅ **GC Balance**: 53%, aligned with genomic signatures
+✅ **Length Distribution**: Wide range, long-read advantage preserved
 
-GC Content: 53.00% (average)
+## 🤝 Contributing
 
-Quality Score: 17.90 (average Phred)
-
-Quality Interpretation
-
-High Quality: Q17.90, excellent for long-read technologies
-GC Balance: 53%, aligned with genomic signatures
-Length Distribution: Wide range, long-read advantage preserved
-
-Contributing
-Fork the project
-
-Create your feature branch (git checkout -b feature/amazing-feature)
-
-Commit your changes (git commit -m 'Add amazing feature')
-
-Push to the branch (git push origin feature/amazing-feature)
-
-Open a Pull Request
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 
-Contact
-Developer: Sahre Hilal Sezer
-Supervisor: Prof. Dr. Kılıç
-Email: sahrehilalsezer@gmail.com
+## 📧 Contact
+
+**Developer**: Sahre Hilal Sezer
+**Supervisor**: Prof. Dr. Kılıç
+**Email**: [sahrehilalsezer@gmail.com](mailto:sahrehilalsezer@gmail.com)
 
 
 **Subject:** Barcode77 Dataset Quality Control (QC) Pipeline Results
@@ -252,9 +268,12 @@ Best regards,
 **Sahre Hilal Sezer** *Bioinformatics Developer*
 
 
-License
-This project is licensed under the MIT License. See LICENSE for details.
+## 📄 License
 
-Last Updated: March 2026
-Version: 1.1.0
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+**Last Updated**: March 2026  
+**Version**: 1.1.0
 ```

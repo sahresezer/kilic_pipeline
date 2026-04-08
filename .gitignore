@@ -1,3 +1,4 @@
 data/
 results/
-.snakemake/data/*.fastq
+.snakemake/
+.DS_Stor
